@@ -1,0 +1,22 @@
+.login-section-leftside-width {
+    width: 35%;
+    height: 100vh;
+    background-color: #f0f0f5; /* Isso pode estar cobrindo a imagem se não houver imagem carregada */
+}
+
+.login-section-leftside-padding-content {
+    padding-top: 140px;
+    padding-left: 49px;
+}
+
+.login-section-leftside-text-green {
+    color: #0e8750;
+}
+
+.login-section-leftside-padding-content h3 {
+    color: #0e8750;
+}
+
+.login-section-leftside-background-image {
+    background-image: url("/images/loginleftimage.png");
+}

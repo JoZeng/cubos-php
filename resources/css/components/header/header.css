@@ -1,0 +1,68 @@
+.home-header {
+    display: flex;
+    height: 90px;
+    width: 100%;
+}
+
+.home-header-content {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.home-header-firstcontent {
+    font-family: "Montserrat";
+    font-size: 26px;
+}
+
+.home-header-secondcontent {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+.menu-initals {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dedee9;
+    width: 48px;
+    height: 48px;
+    padding: 10px 12px;
+    border-radius: 100%;
+}
+
+.home-header-firstcontent {
+    font-family: Montserrat;
+    color: #0e8750;
+    font-weight: 600;
+}
+
+.home-header-firstcontent-text1 {
+    display: flex;
+    align-items: center;
+}
+
+.home-header-firstcontent-text2 {
+    color: #3f3f55;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 14px;
+}
+
+.menu-initals-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-initals-name,
+.menu-name {
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+    color: #0e8750;
+}

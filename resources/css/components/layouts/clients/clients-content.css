@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap");
+
+.clients-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.clients-content-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 24px;
+}
+
+.clients-content-header-firstsession {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    width: 154px;
+    font-size: 26px;
+    font-weight: 600;
+    gap: 16px;
+}
+
+.clients-content-header-secondsession {
+    display: flex;
+    height: 34px;
+    gap: 16px;
+}
+
+.clients-content-header-secondsession-firstbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 266px;
+    color: #f8f8f9;
+    background-color: #da0175;
+    border-radius: 8px;
+}
+
+.clients-content-header-secondsession-input {
+    display: flex;
+    border-radius: 8px;
+    width: 318px;
+    padding-left: 6px;
+    background-position: right;
+    background-image: url("../../../../assets/search.svg");
+    background-repeat: no-repeat;
+}
+
+.clients-content-background-body {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.clients-content-body {
+    display: flex;
+    padding: 12px 23px;
+}
+
+.clients-content-body-fields {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    width: 100%;
+    justify-content: center;
+}
+
+.clients-content-body-fields-list {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 16px 0;
+}
+
+.clients-content-body-fields-list,
+.clients-content-body-fields-list-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    gap: 10px;
+}
+
+.clients-content-body-fields-list > div,
+.clients-content-body-fields-list-values > div {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clients-content-body-fields-list-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 400;
+    font-size: 14px;
+    height: 40px;
+    padding: 0 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.clients-content-divider {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    border: none;
+    margin: 0 0 10px 0;
+}
+
+.clients-content-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px 0px 20px 0px;
+}
+
+.clients-content-pagination button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    background-color: #da0175;
+    width: 100px;
+    border-radius: 10px;
+}
+
+.clients-charges-indebtor {
+    display: flex;
+    justify-content: center;
+    color: #971d1d;
+    background-color: #ffefef;
+    border-radius: 10px;
+}
+
+.clients-charges-inday {
+    display: flex;
+    justify-content: center;
+    color: #1fa7af;
+    background-color: #eef6f6;
+    border-radius: 10px;
+}
+
+.clients-content-body-fields-list-values-text-styles {
+    font-family: "Nunito", sans-serif;
+    font-weight: 400;
+    color: #747488;
+}
+
+.status-inday {
+    border-radius: 10px;
+    background-color: #eef6f6;
+    color: #1fa7af; /* Se quiser texto em branco para contraste */
+}
+
+.status-unpaid {
+    border-radius: 10px;
+    background-color: #ffefef;
+    color: #971d1d; /* Se quiser texto em branco para contraste */
+}

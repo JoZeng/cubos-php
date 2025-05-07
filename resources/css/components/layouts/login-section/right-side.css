@@ -1,0 +1,56 @@
+.login-section-rightside-width {
+    width: 75%;
+    height: 100vh;
+    background-color: #f8f8f9;
+}
+
+.login-section-rightside-padding-content {
+    padding-top: 10%;
+}
+
+.login-section-rightside-content-width {
+    display: flex;
+    width: 380px;
+}
+
+.login-section-rightside-content-width p,
+.login-section-rightside-content-width span {
+    text-align: center;
+}
+
+.login-section-rightside-content-width a {
+    align-self: center;
+}
+
+.login-section-rightside-content-width button {
+    width: 160px;
+    align-self: center;
+    margin: 40px 0px 8px 0px;
+}
+
+.login-section-rightside-content-width {
+    position: relative;
+}
+
+.image-container {
+    position: absolute;
+    bottom: 100px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.image-container img {
+    position: static;
+}
+
+.width-600px {
+    width: 600px;
+}
+
+.login-section-rightside-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
