@@ -105,7 +105,9 @@
     </div>
 
     @include('components.modals.modal-clients-add')
-    @include('components.modals.modal-charges-add', ['client' => $cliente])
+    @isset($cliente)
+        @include('components.modals.modal-charges-add', ['client' => $cliente])
+    @endisset
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

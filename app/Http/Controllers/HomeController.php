@@ -22,11 +22,11 @@ class HomeController extends Controller
 
     public function index()
     {
-        $user = Auth::user(); 
+        $user = Auth::user();
 
         // Recuperando todas as cobranças
         $charges = Charge::all();
-        $clients = Client::all(); 
+        $clients = Client::all();
 
         // Definindo variáveis para armazenar listas
         $pagas = [];
@@ -42,7 +42,7 @@ class HomeController extends Controller
             $expirationDate = Carbon::parse($charge->expiration);
             $currentDate = Carbon::now();
 
-            if ($status == 'pago') {
+            if ($status == 'paga') {
                 $pagas[] = $charge;
             } elseif ($status == 'pendente') {
                 if ($expirationDate->isPast()) {
@@ -58,19 +58,22 @@ class HomeController extends Controller
         $totalVencidas = array_sum(array_column($vencidas, 'value'));
         $totalPrevista = array_sum(array_column($previstas, 'value'));
 
-        // Filtrando os 4 primeiros clientes para cada categoria
+        // Filtrando os clientes
         $clientesEmDia = $this->getClientesStatus($clients, 'em dia');
         $clientesInadimplentes = $this->getClientesStatus($clients, 'inadimplente');
-
-        // Limitar os 4 primeiros
+        $totalClientesEmDia = count($clientesEmDia);
+        $totalClientesInadimplentes = count($clientesInadimplentes);
+        $totalPagasCount = count($pagas);
+        $totalVencidasCount = count($vencidas);
+        $totalPrevistasCount = count($previstas);
         $clientesEmDia = array_slice($clientesEmDia, 0, 4);
         $clientesInadimplentes = array_slice($clientesInadimplentes, 0, 4);
-        $pagas = array_slice($pagas, 0, 4);
+        $pagas = array_slice($pagas, 0, 4); // Limitar pagas a 4
         $vencidas = array_slice($vencidas, 0, 4);
         $previstas = array_slice($previstas, 0, 4);
 
         return view('home', [
-            'user' => $user, 
+            'user' => $user,
             'totalPago' => $totalPago,
             'totalVencidas' => $totalVencidas,
             'totalPrevista' => $totalPrevista,
@@ -79,6 +82,11 @@ class HomeController extends Controller
             'pagas' => $pagas,
             'vencidas' => $vencidas,
             'previstas' => $previstas,
+            'totalClientesEmDiaCount' => $totalClientesEmDia,
+            'totalClientesInadimplentesCount' => $totalClientesInadimplentes,
+            'totalPagasCount' => $totalPagasCount,
+            'totalVencidasCount' => $totalVencidasCount,
+            'totalPrevistasCount' => $totalPrevistasCount,
         ]);
     }
 

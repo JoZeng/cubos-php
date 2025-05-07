@@ -11,10 +11,10 @@
 .file-title-card {
     grid-column: span 3;
     display: flex;
-    justify-content: center;
     justify-content: space-around;
     align-items: center;
     height: 58px;
+    padding-top: 15px;
 }
 
 .file-title-card p {

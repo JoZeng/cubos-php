@@ -1,19 +1,25 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Charge extends Model
 {
-    use HasFactory;
-
-    // Defina os campos que podem ser atribuídos em massa
     protected $fillable = [
-        'client_id', 'description', 'expiration', 'value', 'status', // Adicione 'description' aqui
+        'client_id',
+        'description',
+        'value',
+        'status',
+        'expiration',
+        // Outros campos do seu model Charge
     ];
 
-    // Se você tiver campos que não devem ser preenchidos em massa, use $guarded
-    // protected $guarded = ['id'];  // Isso impede que o campo 'id' seja preenchido automaticamente
+    /**
+     * Get the client that owns the charge.
+     */
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

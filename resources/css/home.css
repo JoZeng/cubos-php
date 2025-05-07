@@ -29,3 +29,7 @@
     justify-content: space-between;
     gap: 32px;
 }
+
+.home-files-major {
+    padding-bottom: 30px;
+}

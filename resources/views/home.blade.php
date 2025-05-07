@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resumo das Cobranças</title>
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/home.css'])
 </head>
 
@@ -34,66 +35,106 @@
             <div class="home-content">
                 @include('components.layouts.home.home-charges')
                 <div class="home-files-minor">
-                    @foreach ($pagas as $charge)
+                    <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
                             'title' => 'Cobranças Pagas',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID da cobrança',
                             'valuecharges' => 'Valor',
-                            'name' => 'pinha',
-                            'id' => $charge->id,
-                            'valueOrCpf' => number_format($charge->value / 100, 2, ',', '.'),
+                            'names' => array_map(function ($c) {
+                                return $c->client ? $c->client->name : 'Cliente Não Encontrado';
+                            }, $pagas),
+                            0,
+                            4,
+                            'ids' => array_map(function ($c) {
+                                return '#' . $c->id;
+                            }, $pagas),
+                            0,
+                            4,
+                            'valuesOrCpfs' => array_map(function ($c) {
+                                return number_format($c->value / 100, 2, ',', '.');
+                            }, $pagas),
+                            0,
+                            4,
+                            'numbercount' => $totalPagasCount,
                         ])
-                    @endforeach
+                    </div>
 
-                    @foreach ($vencidas as $charge)
+
+                    <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
                             'title' => 'Cobranças Vencidas',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID da cobrança',
                             'valuecharges' => 'Valor',
-                            'name' => 'pinha',
-                            'id' => $charge->id,
-                            'valueOrCpf' => number_format($charge->value / 100, 2, ',', '.'),
+                            'names' => array_map(function ($c) {
+                                return $c->client ? $c->client->name : 'Cliente Não Encontrado';
+                            }, $vencidas),
+                            'ids' => array_map(function ($c) {
+                                return '#' . $c->id;
+                            }, $vencidas),
+                            'valuesOrCpfs' => array_map(function ($c) {
+                                return number_format($c->value / 100, 2, ',', '.');
+                            }, $vencidas),
+                            'numbercount' => $totalVencidasCount,
                         ])
-                    @endforeach
-
-                    @foreach ($previstas as $charge)
+                    </div>
+                    <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
                             'title' => 'Cobranças Previstas',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID da cobrança',
                             'valuecharges' => 'Valor',
-                            'name' => 'pinha',
-                            'id' => $charge->id,
-                            'valueOrCpf' => number_format($charge->value / 100, 2, ',', '.'),
+                            'names' => array_map(function ($c) {
+                                return $c->client ? $c->client->name : 'Cliente Não Encontrado';
+                            }, $previstas),
+                            'ids' => array_map(function ($c) {
+                                return '#' . $c->id;
+                            }, $previstas),
+                            'valuesOrCpfs' => array_map(function ($c) {
+                                return number_format($c->value / 100, 2, ',', '.');
+                            }, $previstas),
+                            'numbercount' => $totalPrevistasCount,
                         ])
-                    @endforeach
+                    </div>
                 </div>
                 <div class="home-files-major">
-                    @foreach ($clientesInadimplentes as $client)
+                    <div class="col-md-6">
                         @include('components.layouts.home.home-files', [
                             'title' => 'Clientes Inadimplentes',
                             'clients' => 'Cliente',
-                            'idcharges' => 'ID da cobrança',
-                            'valuecharges' => 'Valor',
-                            'name' => 'pinha',
-                            'id' => $client['id'],
-                            'valueOrCpf' => number_format($client['totalPendente'] / 100, 2, ',', '.'),
+                            'idcharges' => 'ID',
+                            'valuecharges' => 'Valor Vencido',
+                            'names' => array_map(function ($c) {
+                                return $c['nome_cliente'];
+                            }, $clientesInadimplentes),
+                            'ids' => array_map(function ($c) {
+                                return '#' . $c['id'];
+                            }, $clientesInadimplentes),
+                            'valuesOrCpfs' => array_map(function ($c) {
+                                return number_format($c['totalPendente'] / 100, 2, ',', '.');
+                            }, $clientesInadimplentes),
+                            'numbercount' => $totalClientesInadimplentesCount,
                         ])
-                    @endforeach
-
-                    @foreach ($clientesEmDia as $client)
+                    </div>
+                    <div class="col-md-6">
                         @include('components.layouts.home.home-files', [
                             'title' => 'Clientes em Dia',
                             'clients' => 'Cliente',
-                            'idcharges' => 'ID da cobrança',
-                            'valuecharges' => 'Valor',
-                            'name' => 'pinha',
-                            'id' => $client['id'],
-                            'valueOrCpf' => number_format($client['totalPago'] / 100, 2, ',', '.'),
+                            'idcharges' => 'ID',
+                            'valuecharges' => 'Valor Pago',
+                            'names' => array_map(function ($c) {
+                                return $c['nome_cliente'];
+                            }, $clientesEmDia),
+                            'ids' => array_map(function ($c) {
+                                return '#' . $c['id'];
+                            }, $clientesEmDia),
+                            'valuesOrCpfs' => array_map(function ($c) {
+                                return number_format($c['totalPago'] / 100, 2, ',', '.');
+                            }, $clientesEmDia),
+                            'numbercount' => $totalClientesEmDiaCount,
                         ])
-                    @endforeach
+                    </div>
                 </div>
             </div>
         </div>
