@@ -25,12 +25,16 @@ Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.u
 Route::get('/clientes', [ClientController::class, 'index'])->name('clients')->middleware('auth');
 Route::post('/clientes', [ClientController::class, 'store'])->name('clients.store');
 
+Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges')->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/charges', [ChargeController::class, 'index'])->name('charges'); // Rota para listar cobranças
+    Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges'); // Rota para listar cobranças
     Route::get('/charges/create', [ChargeController::class, 'create'])->name('charges.create');
     Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
+    Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
+    Route::put('/charges/{id}', [ChargeController::class, 'update'])->name('charges.update');
 });
+
 
 Route::post('/logout', function () {
     Auth::logout();

@@ -166,3 +166,21 @@
     background-color: #ffefef;
     color: #971d1d; /* Se quiser texto em branco para contraste */
 }
+
+.status-expirated {
+    border-radius: 10px;
+    background-color: #ffefef;
+    color: #971d1d; /* Se quiser texto em branco para contraste */
+}
+
+.status-pending {
+    border-radius: 10px;
+    background-color: #fcf6dc;
+    color: #c5a605;
+}
+
+.status-paga {
+    border-radius: 10px;
+    background-color: #eef6f6;
+    color: #1fa7af; /* Se quiser texto em branco para contraste */
+}

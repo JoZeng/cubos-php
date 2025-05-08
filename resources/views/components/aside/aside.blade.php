@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/charges"
+                    <a href="/cobrancas"
                         class="d-flex flex-column align-items-center aside-link @if (request()->is('cobrancas')) active-link @endif">
                         <img src="{{ $chargeImage }}" alt="{{ $chargeAlt }}">
                         Cobranças

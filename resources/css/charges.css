@@ -1,0 +1,16 @@
+.charges-page {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f8f8f9;
+    overflow: hidden;
+}
+
+.charges-page-content {
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 140px 60px 82px;
+    overflow-y: auto;
+}
