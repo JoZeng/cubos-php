@@ -156,31 +156,41 @@
 }
 
 .status-inday {
+    padding: 10px;
     border-radius: 10px;
     background-color: #eef6f6;
     color: #1fa7af; /* Se quiser texto em branco para contraste */
 }
 
 .status-unpaid {
+    padding: 10px;
     border-radius: 10px;
     background-color: #ffefef;
     color: #971d1d; /* Se quiser texto em branco para contraste */
 }
 
 .status-expirated {
+    padding: 10px;
     border-radius: 10px;
     background-color: #ffefef;
     color: #971d1d; /* Se quiser texto em branco para contraste */
 }
 
 .status-pending {
+    padding: 10px;
     border-radius: 10px;
     background-color: #fcf6dc;
     color: #c5a605;
 }
 
-.status-paga {
+.status-paid {
+    padding: 10px;
     border-radius: 10px;
     background-color: #eef6f6;
     color: #1fa7af; /* Se quiser texto em branco para contraste */
+}
+
+.clients-content-body-text-color {
+    color: #747488;
+    text-decoration: none;
 }

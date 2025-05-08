@@ -24,6 +24,9 @@ Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.u
 
 Route::get('/clientes', [ClientController::class, 'index'])->name('clients')->middleware('auth');
 Route::post('/clientes', [ClientController::class, 'store'])->name('clients.store');
+Route::get('/clientes/{id}', [ClientController::class, 'detailsClients'])->name('clients-details')->middleware('auth');
+
+
 
 Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges')->middleware('auth');
 
@@ -33,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
     Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
     Route::put('/charges/{id}', [ChargeController::class, 'update'])->name('charges.update');
+    Route::get('/cobrancas/pagas', [CobrançaController::class, 'pagas'])->name('cobrancas.pagas');
+
 });
 
 

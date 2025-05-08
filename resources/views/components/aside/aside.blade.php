@@ -21,7 +21,7 @@
                 </li>
                 <li>
                     <a href="/clientes"
-                        class="d-flex flex-column align-items-center aside-link @if (request()->is('clientes')) active-link @endif">
+                        class="d-flex flex-column align-items-center aside-link @if (request()->is('clientes*')) active-link @endif">
                         <img src="{{ $clientImage }}" alt="{{ $clientAlt }}">
                         Clientes
                     </a>

@@ -44,7 +44,7 @@
                     @if (isset($clients) && $clients->count() > 0)
                         @foreach ($clients as $cliente)
                             @php
-                                // Calcular total de cobranças pendentes e pagas
+                                // Calcular o total de cobranças pendentes e pagas
                                 $totalPendente = 0;
                                 $totalPago = 0;
 
@@ -61,7 +61,13 @@
                                 $statusClass = $status == 'Em dia' ? 'status-inday' : 'status-unpaid';
                             @endphp
                             <div class="clients-content-body-fields-list-values">
-                                <div class="clients-content-body-fields-list-values-text-styles">{{ $cliente->name }}
+                                <div class="clients-content-body-fields-list-values-text-styles">
+                                    <span>
+                                        <a class="clients-content-body-text-color"
+                                            href="{{ route('clients-details', ['id' => $cliente->id]) }}">
+                                            {{ $cliente->name }}
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="clients-content-body-fields-list-values-text-styles">{{ $cliente->cpf }}
                                 </div>
@@ -83,7 +89,7 @@
                     @endif
                 @endif
                 <div class="clients-content-pagination">
-                    <a href="{{ route('clients', ['page' => max(($paginaAtual ?? 1) - 1, 1), 'search' => request('search')]) }}"
+                    <a href="{{ route('clients', ['page' => max(($paginaAtual ?? 1) - 1, 1), 'search' => request('search'), 'status' => request('status')]) }}"
                         class="pagination-button"
                         style="{{ ($paginaAtual ?? 1) === 1 ? 'pointer-events: none; opacity: 0.5;' : '' }}">
                         Anterior
@@ -93,7 +99,7 @@
                         Página {{ $paginaAtual ?? 1 }} de {{ $totalPaginas ?? 1 }}
                     </span>
 
-                    <a href="{{ route('clients', ['page' => min(($paginaAtual ?? 1) + 1, $totalPaginas ?? 1), 'search' => request('search')]) }}"
+                    <a href="{{ route('clients', ['page' => min(($paginaAtual ?? 1) + 1, $totalPaginas ?? 1), 'search' => request('search'), 'status' => request('status')]) }}"
                         class="pagination-button"
                         style="{{ ($paginaAtual ?? 1) === ($totalPaginas ?? 1) ? 'pointer-events: none; opacity: 0.5;' : '' }}">
                         Próxima

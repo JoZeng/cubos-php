@@ -9,8 +9,11 @@
     <div class="home-header-content">
         <div class="home-header-firstcontent">
             <p class="home-header-firstcontent-text1">
-                {{ $title }}
+                {{ $title }} @isset($details)
+                    <span class="title-details"> > {{ $details }}</span>
+                @endisset
             </p>
+
         </div>
         <div class="home-header-secondcontent">
             <span class="menu-initals">

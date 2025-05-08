@@ -57,10 +57,10 @@
                             }, $pagas),
                             0,
                             4,
+                            'hrefButton' => '/cobrancas?status=paga',
                             'numbercount' => $totalPagasCount,
                         ])
                     </div>
-
 
                     <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
@@ -78,6 +78,7 @@
                             'valuesOrCpfs' => array_map(function ($c) {
                                 return $c->value;
                             }, $vencidas),
+                            'hrefButton' => '/cobrancas?status=vencida',
                             'numbercount' => $totalVencidasCount,
                         ])
                     </div>
@@ -97,6 +98,7 @@
                             'valuesOrCpfs' => array_map(function ($c) {
                                 return $c->value;
                             }, $previstas),
+                            'hrefButton' => '/cobrancas?status=pendente',
                             'numbercount' => $totalPrevistasCount,
                         ])
                     </div>
@@ -118,6 +120,7 @@
                             'valuesOrCpfs' => array_map(function ($c) {
                                 return $c['cpf'];
                             }, $clientesInadimplentes),
+                            'hrefButton' => '/clientes?status=inadimplente',
                             'numbercount' => $totalClientesInadimplentesCount,
                         ])
                     </div>
@@ -137,10 +140,12 @@
                             'valuesOrCpfs' => array_map(function ($c) {
                                 return $c['cpf'];
                             }, $clientesEmDia),
+                            'hrefButton' => '/clientes?status=em_dia',
                             'numbercount' => $totalClientesEmDiaCount,
                         ])
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

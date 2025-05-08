@@ -50,14 +50,21 @@
                                     $statusClass = 'status-pending';
                                     break;
                                 case 'paga':
-                                    $statusClass = 'status-paga';
+                                    $statusClass = 'status-paid';
                                     break;
                                 default:
                                     $statusClass = 'status-unknown';
                             }
                         @endphp
                         <div class="clients-content-body-fields-list-values">
-                            <div class="clients-content-body-fields-list-values-text-styles">
+                            <div class="clients-content-body-fields-list-values-text-styles cursor-pointer"
+                                data-bs-toggle="modal" data-bs-target="#modalChargesDetails"
+                                data-client-name="{{ $charge->client->name }}"
+                                data-description="{{ $charge->description }}"
+                                data-expiration="{{ $charge->expiration }}" data-id="{{ $charge->id }}"
+                                data-status="{{ ucfirst($charge->calculated_status) }}"
+                                data-value="{{ $charge->value }}" data-status-class="{{ $statusClass }}">
+                                <!-- Passando a classe do status -->
                                 {{ $charge->client->name }} <!-- Nome do cliente -->
                             </div>
                             <div class="clients-content-body-fields-list-values-text-styles">
@@ -84,14 +91,15 @@
                                     data-bs-target="#modalChargesDelete" data-charge-id="{{ $charge->id }}">
                             </div>
                         </div>
+                        @include('components.modals.modal-charges-edit', ['client' => $charge->client])
+                        @include('components.modals.modal-charges-details', ['charge' => $charge])
                     @endforeach
                 @else
                     <div>Sem clientes cadastrados.</div>
                 @endif
             @endif
             <div class="clients-content-pagination">
-                <a href="{{ route('charges', ['page' => max(($paginaAtual ?? 1) - 1, 1), 'search' => request('search')]) }}"
-                    class="pagination-button"
+                <a href="{{ $charges->previousPageUrl() }}" class="pagination-button"
                     style="{{ ($paginaAtual ?? 1) === 1 ? 'pointer-events: none; opacity: 0.5;' : '' }}">
                     Anterior
                 </a>
@@ -100,27 +108,28 @@
                     Página {{ $paginaAtual ?? 1 }} de {{ $totalPaginas ?? 1 }}
                 </span>
 
-                <a href="{{ route('charges', ['page' => min(($paginaAtual ?? 1) + 1, $totalPaginas ?? 1), 'search' => request('search')]) }}"
-                    class="pagination-button"
+                <a href="{{ $charges->nextPageUrl() }}" class="pagination-button"
                     style="{{ ($paginaAtual ?? 1) === ($totalPaginas ?? 1) ? 'pointer-events: none; opacity: 0.5;' : '' }}">
                     Próxima
                 </a>
             </div>
 
 
+
         </div>
     </div>
 </div>
 
+
 @include('components.modals.modal-charges-delete')
-@include('components.modals.modal-charges-edit', ['client' => $charge->client])
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const modalEdit = document.getElementById('modalChargesEdit');
+        const formEdit = modalEdit.querySelector('form');
         const clientIdInputEdit = modalEdit.querySelector('#modal-client-id');
         const clientNameInput = modalEdit.querySelector('#modal-client-name');
-        const formEdit = modalEdit.querySelector('form');
 
         document.querySelectorAll('img[data-bs-target="#modalChargesEdit"]').forEach(button => {
             button.addEventListener('click', function() {
@@ -131,7 +140,7 @@
                 clientNameInput.value = clientName;
 
                 formEdit.action =
-                `/charges/${chargeId}`; // Atualiza a rota do formulário dinamicamente
+                    `/charges/${chargeId}`; // Atualiza a rota do formulário dinamicamente
             });
         });
     });

@@ -26,6 +26,7 @@
     @endif
     <hr class="file-divider" />
     <div class="file-button-card">
-        <span>Ver todos</span>
+        <a href="{{ $hrefButton }}" class="btn-ver-todos"><span>Ver todos</span>
+        </a>
     </div>
 </div>

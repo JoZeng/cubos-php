@@ -27,14 +27,14 @@
                 </div>
                 <div class="d-flex gap-4 w-100">
                     <div class="d-flex flex-column align-items-start w-100">
-                        <label>CPF</label>
+                        <label>CPF*</label>
                         <input class="w-100 p-2" type="text" name="cpf" id="cpfAddClient"
-                            value="{{ old('cpf') }}" placeholder="Digite o CPF ">
+                            value="{{ old('cpf') }}" placeholder="Digite o CPF " required>
                     </div>
                     <div class="d-flex flex-column align-items-start w-100">
-                        <label>Telefone</label>
+                        <label>Telefone*</label>
                         <input class="w-100 p-2" type="text" name="phone" id="phoneAddClient"
-                            value="{{ old('phone') }}" placeholder="Digite o Telefone ">
+                            value="{{ old('phone') }}" placeholder="Digite o Telefone " required>
                     </div>
                 </div>
                 <div class="d-flex flex-column align-items-start w-100">

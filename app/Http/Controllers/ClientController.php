@@ -6,6 +6,8 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon; // Correto, sem duplicar "Carbon"
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientController extends Controller
 {
@@ -18,9 +20,11 @@ class ClientController extends Controller
     {
         $user = Auth::user();
         $search = $request->input('search', '');
-        
+        $statusFilter = $request->input('status', null);
+    
+        // Recupera clientes com suas cobranças
         $clientsQuery = Client::with('charges')->where('user_id', $user->id);
-        
+    
         if (!empty($search)) {
             $clientsQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
@@ -28,19 +32,57 @@ class ClientController extends Controller
                       ->orWhere('cpf', 'like', '%' . $search . '%');
             });
         }
-        
-        // Paginação apenas para clientes
-        $clients = $clientsQuery->paginate(10);
-        
+    
+        // Pega todos os clientes para calcular o status manualmente
+        $clients = $clientsQuery->get();
+    
+        // Calcula o status de cada cliente com base nas cobranças
+        $clients = $clients->map(function ($client) {
+            $totalPendente = 0;
+            $totalPago = 0;
+    
+            foreach ($client->charges as $charge) {
+                if ($charge->status === 'pendente') {
+                    $totalPendente += $charge->value;
+                } elseif ($charge->status === 'paga') {
+                    $totalPago += $charge->value;
+                }
+            }
+    
+            $client->calculated_status = $totalPendente > $totalPago ? 'Inadimplente' : 'Em dia';
+            return $client;
+        });
+    
+        // Filtra conforme o status desejado
+        if ($statusFilter === 'inadimplente') {
+            $clients = $clients->filter(function ($client) {
+                return $client->calculated_status === 'Inadimplente';
+            });
+        } elseif ($statusFilter === 'em_dia') {
+            $clients = $clients->filter(function ($client) {
+                return $client->calculated_status === 'Em dia';
+            });
+        }
+    
+        // Paginação manual
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $pagedData = $clients->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $paginatedClients = new LengthAwarePaginator($pagedData, $clients->count(), $perPage, $currentPage);
+    
         return view('clients', [
-            'clients' => $clients,
+            'clients' => $paginatedClients->appends($request->only(['search', 'status'])),
             'search' => $search,
-            'paginaAtual' => $clients->currentPage(),
-            'totalPaginas' => $clients->lastPage(),
+            'paginaAtual' => $paginatedClients->currentPage(),
+            'totalPaginas' => $paginatedClients->lastPage(),
             'user' => $user,
             'client_id' => null,
+            'charges' => $clients->pluck('charges')->flatten() // Plucking todas as cobranças dos clientes
         ]);
     }
+    
+    
+    
     
 
     /**
@@ -54,16 +96,33 @@ class ClientController extends Controller
     /**
      * Exibe os detalhes de um cliente específico.
      */
-    public function mostrarDetalhesCliente($id)
+    public function detailsClients($id)
     {
-        $client = Client::findOrFail($id);
-        if (!$client) {
-            return redirect()->route('clients')->with('error', 'Cliente não encontrado.');
+        $user = Auth::user();
+    
+        // Busca o cliente e suas cobranças, garantindo que pertença ao usuário autenticado
+        $client = Client::with('charges')->where('user_id', $user->id)->findOrFail($id);
+    
+        // Adiciona o campo calculated_status para cada cobrança com base na data de vencimento
+        foreach ($client->charges as $charge) {
+            if ($charge->status === 'paga') {
+                $charge->calculated_status = 'paga';
+            } elseif ($charge->status === 'pendente') {
+                $charge->calculated_status = Carbon::parse($charge->expiration)->isPast() ? 'vencida' : 'pendente';
+            } else {
+                $charge->calculated_status = 'desconhecido';
+            }
         }
     
-        // Passa o cliente para a view
-        return view('clients.detalhes', compact('client'));  // Passando o cliente completo
+        return view('clients-details', [
+            'client' => $client,
+            'charges' => $client->charges, // já vêm com calculated_status
+            'user' => $user,
+        ]);
     }
+    
+    
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -99,9 +158,6 @@ class ClientController extends Controller
         return redirect()->route('clients')->with('success', 'Cliente adicionado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $client = Client::with('charges')->find($id);
@@ -109,7 +165,7 @@ class ClientController extends Controller
             return redirect()->route('clients')->with('error', 'Cliente não encontrado.');
         }
 
-        return view('clients.show', [
+        return view('client-details', [
             'client' => $client,
             'client_id' => $client->id,
         ]);
