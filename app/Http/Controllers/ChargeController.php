@@ -17,27 +17,33 @@ class ChargeController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'description' => 'required|string|max:255',
-            'expiration' => 'required|date',
-            'value' => 'required|numeric|min:0',
-            'status' => 'required|in:pendente,paga',  // Aqui estamos validando que o valor de status seja 'pendente' ou 'paga'
-            'client_id' => 'required|integer',
+        // Validação dos dados recebidos
+        $request->validate([
+            'description' => 'required|string',
+            'expiration' => 'required|date_format:d/m/Y',
+            'value' => 'required|numeric',
+            'status' => 'required|in:paga,pendente',
+            'client_id' => 'required|exists:clients,id'
         ]);
-
-        // Criação da cobrança
-        $charge = Charge::create([
-            'description' => $validated['description'],
-            'expiration' => $validated['expiration'],
-            'value' => $validated['value'],
-            'status' => $validated['status'],  // Aqui estamos passando o status que foi enviado
-            'user_id' => auth()->user()->id,
-            'client_id' => $validated['client_id'],
+    
+        // Converte a data do formato brasileiro para formato MySQL
+        $expiration = \DateTime::createFromFormat('d/m/Y', $request->expiration);
+        if (!$expiration) {
+            return back()->withErrors(['expiration' => 'Data de vencimento inválida.']);
+        }
+    
+        // Cria a cobrança
+        Charge::create([
+            'description' => $request->description,
+            'expiration' => $expiration->format('Y-m-d'),
+            'value' => $request->value,
+            'status' => $request->status,
+            'client_id' => $request->client_id
         ]);
-
-        // Redireciona para a página de clientes após a criação da cobrança
-        return redirect()->route('clients')->with('success', 'Cobrança criada com sucesso!');
+    
+        return redirect()->back()->with('success', 'Cobrança cadastrada com sucesso!');
     }
+    
 
     public function showClientStatus($clientId)
     {

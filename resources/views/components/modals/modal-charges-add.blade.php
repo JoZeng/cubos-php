@@ -15,7 +15,7 @@
             </div>
 
             @if ($client)
-                <form method="POST" action="{{ route('charges.store') }}"
+                <form id="chargesForm" method="POST" action="{{ route('charges.store') }}"
                     class="d-flex flex-column align-items-start w-100 px-4">
                     @csrf
 
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="form-check modal-input-radio ps-5 w-100">
                                     <input class="form-check-input" type="radio" name="status" id="radio-paga"
-                                        value="paga" checked>
+                                        value="paga">
                                     <label class="form-check-label mb-2" for="radio-paga">Paga</label>
                                 </div>
                             </div>

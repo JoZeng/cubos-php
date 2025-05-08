@@ -37,6 +37,7 @@
                 <div class="home-files-minor">
                     <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
+                            'countBackgroundColor' => 'blueCount',
                             'title' => 'Cobranças Pagas',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID da cobrança',
@@ -52,7 +53,7 @@
                             0,
                             4,
                             'valuesOrCpfs' => array_map(function ($c) {
-                                return number_format($c->value / 100, 2, ',', '.');
+                                return $c->value;
                             }, $pagas),
                             0,
                             4,
@@ -63,6 +64,7 @@
 
                     <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
+                            'countBackgroundColor' => 'redCount',
                             'title' => 'Cobranças Vencidas',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID da cobrança',
@@ -74,13 +76,14 @@
                                 return '#' . $c->id;
                             }, $vencidas),
                             'valuesOrCpfs' => array_map(function ($c) {
-                                return number_format($c->value / 100, 2, ',', '.');
+                                return $c->value;
                             }, $vencidas),
                             'numbercount' => $totalVencidasCount,
                         ])
                     </div>
                     <div class="col-md-4">
                         @include('components.layouts.home.home-files', [
+                            'countBackgroundColor' => 'yellowCount',
                             'title' => 'Cobranças Previstas',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID da cobrança',
@@ -92,7 +95,7 @@
                                 return '#' . $c->id;
                             }, $previstas),
                             'valuesOrCpfs' => array_map(function ($c) {
-                                return number_format($c->value / 100, 2, ',', '.');
+                                return $c->value;
                             }, $previstas),
                             'numbercount' => $totalPrevistasCount,
                         ])
@@ -101,10 +104,11 @@
                 <div class="home-files-major">
                     <div class="col-md-6">
                         @include('components.layouts.home.home-files', [
+                            'countBackgroundColor' => 'grayCount',
                             'title' => 'Clientes Inadimplentes',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID',
-                            'valuecharges' => 'Valor Vencido',
+                            'valuecharges' => 'CPF',
                             'names' => array_map(function ($c) {
                                 return $c['nome_cliente'];
                             }, $clientesInadimplentes),
@@ -112,17 +116,18 @@
                                 return '#' . $c['id'];
                             }, $clientesInadimplentes),
                             'valuesOrCpfs' => array_map(function ($c) {
-                                return number_format($c['totalPendente'] / 100, 2, ',', '.');
+                                return $c['cpf'];
                             }, $clientesInadimplentes),
                             'numbercount' => $totalClientesInadimplentesCount,
                         ])
                     </div>
                     <div class="col-md-6">
                         @include('components.layouts.home.home-files', [
+                            'countBackgroundColor' => 'greenCount',
                             'title' => 'Clientes em Dia',
                             'clients' => 'Cliente',
                             'idcharges' => 'ID',
-                            'valuecharges' => 'Valor Pago',
+                            'valuecharges' => 'CPF',
                             'names' => array_map(function ($c) {
                                 return $c['nome_cliente'];
                             }, $clientesEmDia),
@@ -130,7 +135,7 @@
                                 return '#' . $c['id'];
                             }, $clientesEmDia),
                             'valuesOrCpfs' => array_map(function ($c) {
-                                return number_format($c['totalPago'] / 100, 2, ',', '.');
+                                return $c['cpf'];
                             }, $clientesEmDia),
                             'numbercount' => $totalClientesEmDiaCount,
                         ])

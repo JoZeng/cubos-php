@@ -79,3 +79,41 @@
     color: #c5a605;
     background-color: #fcf6dc;
 }
+
+.redCount,
+.yellowCount,
+.blueCount,
+.grayCount,
+.greenCount {
+    width: 50px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.redCount {
+    color: #971d1d;
+    background-color: #ffefef;
+}
+
+.yellowCount {
+    color: #c5a605;
+    background-color: #fcf6dc;
+}
+
+.blueCount {
+    color: #1fa7af;
+    background-color: #eef6f6;
+}
+
+.grayCount {
+    color: #dedee9;
+    background-color: #3f3f55;
+}
+
+.greenCount {
+    color: #0e8769;
+    background-color: #efffef;
+}

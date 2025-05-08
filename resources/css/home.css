@@ -11,7 +11,7 @@
     width: 100vw;
     display: flex;
     flex-direction: column;
-    padding: 20px 140px 60px 82px;
+    padding: 20px 140px 40px 82px;
     overflow-y: auto;
 }
 
@@ -28,8 +28,18 @@
     width: 100%;
     justify-content: space-between;
     gap: 32px;
+    /* Já existente */
+    align-items: stretch; /* Adiciona para esticar os filhos verticalmente */
 }
 
 .home-files-major {
     padding-bottom: 30px;
+}
+
+.home-files-minor > *,
+.home-files-major > * {
+    /* Aplica a todos os filhos diretos */
+    flex-grow: 1;
+    flex-shrink: 1;
+    width: 0;
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController; // Certifique-se de usar o namespace correto para HomeController
@@ -30,3 +31,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/charges/create', [ChargeController::class, 'create'])->name('charges.create');
     Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
 });
+
+Route::post('/logout', function () {
+    Auth::logout();
+    session()->invalidate();
+    session()->regenerateToken();
+    return redirect('/');
+})->name('logout');

@@ -6,7 +6,7 @@
 <div class="file-charges-content">
     <div class="file-title-card">
         <p>{{ $title }}</p>
-        <span>{{ $numbercount }}</span>
+        <span class={{ $countBackgroundColor }}>{{ $numbercount }}</span>
     </div>
     <hr class="file-divider" />
     <div class="file-subtitles-card">
@@ -24,6 +24,7 @@
             </div>
         @endforeach
     @endif
+    <hr class="file-divider" />
     <div class="file-button-card">
         <span>Ver todos</span>
     </div>
