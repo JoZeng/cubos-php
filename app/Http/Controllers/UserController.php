@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -47,56 +48,70 @@ class UserController extends Controller
     /**
      * Store the first step of the registration process.
      */
-    public function storeStepOne(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email'
-        ]);
+public function storeStepOne(Request $request)
+{
+    // Validação básica
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'email' => 'required|email'
+    ]);
 
-        session([
-            'name' => $request->name,
-            'email' => $request->email
-        ]);
-
-        return redirect()->route('password');
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+
+    if (User::where('email', $request->email)->exists()) {
+        // Laravel vai automaticamente retornar o erro para a view associada
+        return back()->withErrors(['email' => 'Este e-mail já está cadastrado.']);
+    }
+
+    // Salva os dados na sessão
+    session([
+        'name' => $request->name,
+        'email' => $request->email
+    ]);
+
+  return redirect()->route('password');
+}
 
     /**
      * Finalize the registration process and create a new user.
      */
-    public function finalRegister(Request $request)
-    {
-        $request->validate([
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-    
-        // Recuperar os dados da sessão (nome e e-mail)
-        $name = session()->get('name');
-        $email = session()->get('email');
-    
-        // Verificar se os dados da primeira etapa ainda estão na sessão
-        if (!$name || !$email) {
-            return redirect()->route('register')->withErrors(['message' => 'Por favor, preencha os dados iniciais de registro.']);
-        }
-    
-        // Criar o usuário com os dados coletados
-        $user = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => Hash::make($request->password),  // Hash para segurança
-        ]);
-    
-        // Fazer login automaticamente após o registro
-        Auth::login($user);
-    
-        // Limpar os dados da sessão
-        session()->forget('name');
-        session()->forget('email');
-    
-        // Redirecionar para a página de confirmação ou outra página desejada
-        return redirect()->route('confirm-register')->with('success', 'Registro completo. Você está autenticado.');
+   public function finalRegister(Request $request)
+{
+    $password = $request->input('password');
+    $passwordConfirmation = $request->input('password_confirmation');
+
+    // Validação manual
+    if (strlen($password) < 6) {
+        return back()->withErrors(['password' => 'A senha deve ter pelo menos 6 caracteres.'])->withInput();
     }
+
+    if ($password !== $passwordConfirmation) {
+        return back()->withErrors(['password_confirmation' => 'As senhas não coincidem.'])->withInput();
+    }
+
+    $name = session()->get('name');
+    $email = session()->get('email');
+
+    if (!$name || !$email) {
+        return redirect()->route('register')->withErrors([
+            'message' => 'Por favor, preencha os dados iniciais de registro.'
+        ]);
+    }
+
+    $user = User::create([
+        'name' => $name,
+        'email' => $email,
+        'password' => Hash::make($password),
+    ]);
+
+    Auth::login($user);
+    session()->forget(['name', 'email']);
+
+    return redirect()->route('confirm-register')->with('success', 'Registro completo. Você está autenticado.');
+}
+
 
     /**
      * Store a newly created resource in storage.

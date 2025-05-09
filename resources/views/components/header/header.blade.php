@@ -43,13 +43,13 @@
 
                 <div id="dropdownMenu" class="dropdown-menu-custom hidden">
                     <div class="modal-arrow"></div>
-                    <img src="{{ asset('images/button-editar.svg') }}" data-bs-toggle="modal"
+                    <img class="cursor-pointer" src="{{ asset('images/button-editar.svg') }}" data-bs-toggle="modal"
                         data-bs-target="#modalUserEdit" />
                     <form id="logoutForm" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
 
-                    <img src="{{ asset('images/button-logout.svg') }}" alt="logout"
+                    <img class="cursor-pointer" src="{{ asset('images/button-logout.svg') }}" alt="logout"
                         onclick="document.getElementById('logoutForm').submit();" />
                 </div>
             </div>

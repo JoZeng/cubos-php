@@ -17,13 +17,21 @@
                 <div>
                     <label>{{ $firstLabel }}</label>
                     <input type="{{ $firstType }}" class="form-control" placeholder="{{ $firstPlaceholder }}"
-                        id="{{ $firstId }}" name="{{ $firstName }}" value="{{ $firstValue }}">
+                        id="{{ $firstId }}" name="{{ $firstName }}" value="{{ old($firstName) }}">
+                    @error($firstName)
+                        <span class="text-error">{{ $message }}</span>
+                    @enderror
                 </div>
+
                 <div>
                     <label>{{ $secondLabel }}</label>
                     <input type="{{ $secondType }}" class="form-control" placeholder="{{ $secondPlaceholder }}"
-                        id="{{ $secondId }}" name="{{ $secondName }}" value="{{ $secondValue }}">
+                        id="{{ $secondId }}" name="{{ $secondName }}" value="{{ old($secondName) }}">
+                    @error($secondName)
+                        <span class="text-error">{{ $message }}</span>
+                    @enderror
                 </div>
+
                 <button class="login-section-rightside-content-width-button"
                     type="submit">{{ $button }}</button>
             </form>
