@@ -40,12 +40,12 @@ Route::middleware(['auth'])->group(function () {
 Route::put('/clientes/{id}', [ChargeController::class, 'updateCharges'])->name('updateCharges');
 
 // Deletar cobrança
-Route::delete('/clientes/{id}', [ChargeController::class, 'deleteCharges'])->name('deleteCharges');
+    Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
 
     Route::get('/charges/{id}', [ChargeController::class, 'show'])->name('charges.show');
 
     // Deletar cobrança
-    Route::delete('/cobrancas/{id}', [ChargeController::class, 'destroy'])->name('cobrancas.delete');
+    Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
 });
 
 Route::post('/logout', function () {
