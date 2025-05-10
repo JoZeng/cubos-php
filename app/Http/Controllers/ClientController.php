@@ -113,7 +113,7 @@ class ClientController extends Controller
                 $charge->calculated_status = 'desconhecido';
             }
         }
-    
+
         return view('clients-details', [
             'client' => $client,
             'charges' => $client->charges, // já vêm com calculated_status
@@ -180,9 +180,8 @@ class ClientController extends Controller
         return view('clients.edit', ['client' => $client]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+  
+
     public function update(Request $request, string $id)
     {
         $request->validate([
@@ -214,9 +213,7 @@ class ClientController extends Controller
         return redirect()->route('clients')->with('success', 'Cliente atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(string $id)
     {
         $client = Client::findOrFail($id);
@@ -229,4 +226,5 @@ class ClientController extends Controller
         $client->delete();
         return redirect()->route('clients')->with('success', 'Cliente excluído com sucesso!');
     }
+
 }

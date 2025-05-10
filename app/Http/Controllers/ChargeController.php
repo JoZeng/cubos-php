@@ -120,6 +120,26 @@ class ChargeController extends Controller
         return view('components.modals.modal-charges-add', compact('client_id'));
     }
 
+public function show($id)
+{
+    $client = Client::findOrFail($id);
+    $charges = Charge::where('client_id', $id)->with('client')->get();
+
+    $charges->transform(function ($charge) {
+        if ($charge->status === 'paga') {
+            $charge->calculated_status = 'paga';
+        } elseif ($charge->status === 'pendente') {
+            $charge->calculated_status = Carbon::parse($charge->expiration)->isPast() ? 'vencida' : 'pendente';
+        } else {
+            $charge->calculated_status = 'desconhecido';
+        }
+        return $charge;
+    });
+
+    return view('charges.show', compact('client', 'charges'));
+}
+
+
     public function destroy($id)
     {
         $charge = Charge::find($id);
@@ -128,6 +148,16 @@ class ChargeController extends Controller
             return redirect()->route('charges')->with('success', 'Cobrança excluída com sucesso!');
         }
         return redirect()->route('charges')->with('error', 'Cobrança não encontrada.');
+    }
+
+      public function deleteCharges($id)
+    {
+        $charge = Charge::find($id);
+        if ($charge) {
+            $charge->delete();
+       return redirect()->back()->with('success', 'Cobrança atualizada com sucesso!');
+        }
+     return redirect()->route('charges')->with('error', 'Cobrança não encontrada.');
     }
 
     public function update(Request $request, $id)
@@ -150,4 +180,22 @@ class ChargeController extends Controller
 
         return redirect()->route('charges')->with('success', 'Cobrança atualizada com sucesso!');
     }
+    public function updateCharges(Request $request, $chargeId)
+{
+    $request->validate([
+        'description' => 'required|string|max:255',
+        'expiration' => 'required|date_format:d/m/Y',
+        'value' => 'required|numeric|min:0',
+        'status' => 'required|in:pendente,paga',
+    ]);
+
+    $charge = Charge::findOrFail($chargeId);
+    $charge->description = $request->description;
+    $charge->expiration = Carbon::createFromFormat('d/m/Y', $request->expiration)->format('Y-m-d');
+    $charge->value = $request->value;
+    $charge->status = $request->status;
+    $charge->save();
+
+    return redirect()->back()->with('success', 'Cobrança atualizada com sucesso!');
+}    
 }

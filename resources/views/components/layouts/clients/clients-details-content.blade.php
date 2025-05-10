@@ -19,7 +19,9 @@
             <div class="client-details-data">
                 <div class="client-details-data-header">
                     <p>Dados do cliente</p>
-                    <button onclick="handleModalClientsEdit()">Editar Cliente</button>
+                    <button data-bs-toggle="modal" data-client-id="{{ $client->id }}"
+                        data-client-name="{{ $client->name }}" data-bs-target="#modalClientEdit">Editar
+                        Cliente</button>
                 </div>
             </div>
 
@@ -128,6 +130,10 @@
         const clientIdInputEdit = modalEdit.querySelector('#modal-client-id');
         const clientNameInput = modalEdit.querySelector('#modal-client-name');
 
+        // Rota corrigida
+        const updateRouteTemplate = "{{ route('updateCharges', ['id' => '__ID__']) }}";
+        const updateRouteTemplateDelete = "{{ route('updateCharges', ['id' => '__ID__']) }}";
+
         document.querySelectorAll('img[data-bs-target="#modalChargesEdit"]').forEach(button => {
             button.addEventListener('click', function() {
                 const chargeId = this.getAttribute('data-client-id');
@@ -136,8 +142,8 @@
                 clientIdInputEdit.value = chargeId;
                 clientNameInput.value = clientName;
 
-                formEdit.action =
-                    `/charges/${chargeId}`; // Atualiza a rota do formulário dinamicamente
+                // Substitui __ID__ pelo chargeId
+                formEdit.action = updateRouteTemplate.replace('__ID__', chargeId);
             });
         });
     });

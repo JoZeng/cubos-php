@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController; // Certifique-se de usar o namespace correto para HomeController
-use App\Http\Controllers\ClientController; // Certifique-se de usar o namespace correto para HomeController
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ChargeController;
 
 Route::get('/', [UserController::class, 'register'])->name('register');
@@ -26,20 +26,27 @@ Route::get('/clientes', [ClientController::class, 'index'])->name('clients')->mi
 Route::post('/clientes', [ClientController::class, 'store'])->name('clients.store');
 Route::get('/clientes/{id}', [ClientController::class, 'detailsClients'])->name('clients-details')->middleware('auth');
 
-
-
-Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges')->middleware('auth');
-
 Route::middleware(['auth'])->group(function () {
-    Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges'); // Rota para listar cobranças
-    Route::get('/charges/create', [ChargeController::class, 'create'])->name('charges.create');
-    Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
-    Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
-    Route::put('/charges/{id}', [ChargeController::class, 'update'])->name('charges.update');
-    Route::get('/cobrancas/pagas', [CobrançaController::class, 'pagas'])->name('cobrancas.pagas');
+    // Cobranças
+    Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges');
+    Route::get('/cobrancas/pagas', [ChargeController::class, 'pagas'])->name('charges.pagas');
+    
+    // Criar cobrança
+    Route::get('/cobrancas/create', [ChargeController::class, 'create'])->name('charges.create');
+      Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
+    
+    // Atualizar cobrança
+  // Atualizar cobrança
+Route::put('/clientes/{id}', [ChargeController::class, 'updateCharges'])->name('updateCharges');
 
+// Deletar cobrança
+Route::delete('/clientes/{id}', [ChargeController::class, 'deleteCharges'])->name('deleteCharges');
+
+    Route::get('/charges/{id}', [ChargeController::class, 'show'])->name('charges.show');
+
+    // Deletar cobrança
+    Route::delete('/cobrancas/{id}', [ChargeController::class, 'destroy'])->name('cobrancas.delete');
 });
-
 
 Route::post('/logout', function () {
     Auth::logout();
