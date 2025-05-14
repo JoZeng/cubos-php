@@ -110,8 +110,8 @@
                             <img src="{{ asset('images/iconEdit.svg') }}" alt="Editar" data-bs-toggle="modal"
                                 data-client-id="{{ $charge->id }}" data-client-name="{{ $charge->client->name }}"
                                 data-bs-target="#modalChargesEdit" />
-                            <img src="{{ asset('images/iconDelete.svg') }}" alt="Deletar" data-bs-toggle="modal"
-                                data-bs-target="#modalChargesDelete" />
+                            <img src="{{ asset('images/iconDelete.svg') }}" alt="iconDelete" data-bs-toggle="modal"
+                                data-bs-target="#modalChargesDelete" data-charge-id="{{ $charge->id }}">
                         </div>
                     </div>
                     @include('components.modals.modal-charges-edit', ['client' => $charge->client])
@@ -142,8 +142,22 @@
                 clientIdInputEdit.value = chargeId;
                 clientNameInput.value = clientName;
 
-                // Substitui __ID__ pelo chargeId
                 formEdit.action = updateRouteTemplate.replace('__ID__', chargeId);
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('[data-bs-target="#modalChargesDelete"]');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const chargeId = this.getAttribute('data-charge-id');
+                const form = document.getElementById('deleteChargeForm');
+
+                // Substitui '__ID__' pela cobrança real no atributo action
+                const baseAction = form.getAttribute('action');
+                form.setAttribute('action', baseAction.replace('__ID__', chargeId));
             });
         });
     });

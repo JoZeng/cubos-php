@@ -13,10 +13,13 @@
                         <img class="w-50" src={{ asset('images/warningimage.png') }} alt="">
                         <p>Tem certeza que deseja excluir esta cobrança?</p>
                         <!-- Formulário para a exclusão da cobrança -->
-                        <form id="deleteChargeForm" method="POST" action=""
+                        <form id="deleteChargeForm" method="POST"
+                            action="{{ route('charges.delete', ['id' => '__ID__']) }}"
                             class="d-flex flex-row justify-content-evenly align-items-center w-50">
                             @csrf
                             @method('DELETE')
+                            <!-- Campo oculto para armazenar o ID da cobrança -->
+                            <input type="hidden" name="charge_id" id="chargeIdInput">
                             <button type="button" data-bs-dismiss="modal">Não</button>
                             <button type="submit">Sim</button>
                         </form>
@@ -26,18 +29,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const modal = document.getElementById('modalChargesDelete');
-        const form = document.getElementById('deleteChargeForm');
-
-        document.querySelectorAll('img[data-bs-target="#modalChargesDelete"]').forEach(button => {
-            button.addEventListener('click', function() {
-                const chargeId = this.getAttribute('data-charge-id');
-                form.action =
-                    `/charges/${chargeId}`; // Atualiza a rota de exclusão dinamicamente
-            });
-        });
-    });
-</script>

@@ -10,17 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
+
     public function register()
     {
         return view('register');
     }
 
-    /**
-     * Display the password reset view.
-     */
     public function password()
     {
         return view('password');
@@ -36,47 +31,32 @@ class UserController extends Controller
         return view('login');
     }
 
-
-    /**
-     * Show the form for creating a new user (not directly used in this context).
-     */
-    public function create()
+    public function storeStepOne(Request $request)
     {
-        //
+        // Validação básica
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if (User::where('email', $request->email)->exists()) {
+            // Laravel vai automaticamente retornar o erro para a view associada
+            return back()->withErrors(['email' => 'Este e-mail já está cadastrado.']);
+        }
+
+        // Salva os dados na sessão
+        session([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
+
+    return redirect()->route('password');
     }
 
-    /**
-     * Store the first step of the registration process.
-     */
-public function storeStepOne(Request $request)
-{
-    // Validação básica
-    $validator = Validator::make($request->all(), [
-        'name' => 'required',
-        'email' => 'required|email'
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
-    }
-
-    if (User::where('email', $request->email)->exists()) {
-        // Laravel vai automaticamente retornar o erro para a view associada
-        return back()->withErrors(['email' => 'Este e-mail já está cadastrado.']);
-    }
-
-    // Salva os dados na sessão
-    session([
-        'name' => $request->name,
-        'email' => $request->email
-    ]);
-
-  return redirect()->route('password');
-}
-
-    /**
-     * Finalize the registration process and create a new user.
-     */
    public function finalRegister(Request $request)
 {
     $password = $request->input('password');
@@ -112,29 +92,26 @@ public function storeStepOne(Request $request)
     return redirect()->route('confirm-register')->with('success', 'Registro completo. Você está autenticado.');
 }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    private function formatCpf($cpf)
     {
-        //
+        $cpf = preg_replace('/\D/', '', $cpf); // Remove tudo o que não for número
+        if (strlen($cpf) === 11) { // Verifica se o CPF tem 11 dígitos
+            return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
+        }
+        return $cpf; // Retorna o CPF sem formatação se não tiver 11 dígitos
+    }
+    
+    private function formatPhone($phone)
+    {
+        $phone = preg_replace('/\D/', '', $phone); // Remove tudo o que não for número
+        if (strlen($phone) === 11) { // Verifica se o telefone tem 11 dígitos
+            return '(' . substr($phone, 0, 2) . ') ' . substr($phone, 2, 5) . '-' . substr($phone, 7, 4);
+        }
+        return $phone; // Retorna o telefone sem formatação se não tiver 11 dígitos
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        // Buscar o usuário
         $user = User::findOrFail($id);
     
         // Formatar o CPF e o telefone do usuário
@@ -159,14 +136,10 @@ public function storeStepOne(Request $request)
             'phone' => 'nullable|string|unique:users,phone,' . $id,  // Permitindo telefone nulo, mas se não for, precisa ser único
             'password' => 'nullable|string|min:6|confirmed',  // Senha opcional se não for modificada
         ]);
-    
-        $user = User::findOrFail($id);
 
-        // Formatação de CPF e Telefone
+        $user = User::findOrFail($id);
         $formattedCpf = $this->formatCpf($validated['cpf'] ?? $user->cpf);
         $formattedPhone = $this->formatPhone($validated['phone'] ?? $user->phone);
-    
-        // Lógica de atualização do usuário
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -178,33 +151,6 @@ public function storeStepOne(Request $request)
         return redirect()->route('home')->with('success', 'Cadastro atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
-    /**
-     * Função para formatar CPF
-     */
-    private function formatCpf($cpf)
-    {
-        $cpf = preg_replace('/\D/', '', $cpf); // Remove tudo o que não for número
-        if (strlen($cpf) === 11) { // Verifica se o CPF tem 11 dígitos
-            return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
-        }
-        return $cpf; // Retorna o CPF sem formatação se não tiver 11 dígitos
-    }
-    
-    private function formatPhone($phone)
-    {
-        $phone = preg_replace('/\D/', '', $phone); // Remove tudo o que não for número
-        if (strlen($phone) === 11) { // Verifica se o telefone tem 11 dígitos
-            return '(' . substr($phone, 0, 2) . ') ' . substr($phone, 2, 5) . '-' . substr($phone, 7, 4);
-        }
-        return $phone; // Retorna o telefone sem formatação se não tiver 11 dígitos
-    }
     
 }

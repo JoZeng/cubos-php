@@ -12,8 +12,7 @@ class Charge extends Model
         'value',
         'status',
         'expiration',
-        // Outros campos do seu model Charge
-    ];
+        ];
 
     /**
      * Get the client that owns the charge.

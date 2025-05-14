@@ -34,7 +34,6 @@ class HomeController extends Controller
     $vencidas = [];
     $previstas = [];
 
-    // Classificar cobranças
     foreach ($charges as $charge) {
         $expirationDate = Carbon::parse($charge->expiration);
         if ($charge->status === 'paga') {

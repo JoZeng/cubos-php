@@ -142,22 +142,12 @@ public function show($id)
 
     public function destroy($id)
     {
-        $charge = Charge::find($id);
+        $charge = Charge::findOrFail($id);
         if ($charge) {
             $charge->delete();
-            return redirect()->route('charges')->with('success', 'Cobrança excluída com sucesso!');
+            return redirect()->back()->with('success', 'Cobrança excluída com sucesso!');
         }
-        return redirect()->route('charges')->with('error', 'Cobrança não encontrada.');
-    }
-
-      public function deleteCharges($id)
-    {
-        $charge = Charge::find($id);
-        if ($charge) {
-            $charge->delete();
-       return redirect()->back()->with('success', 'Cobrança atualizada com sucesso!');
-        }
-     return redirect()->route('charges')->with('error', 'Cobrança não encontrada.');
+        return redirect()->back()->with('error', 'Cobrança não encontrada.');
     }
 
     public function update(Request $request, $id)

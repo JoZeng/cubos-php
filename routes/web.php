@@ -27,25 +27,15 @@ Route::post('/clientes', [ClientController::class, 'store'])->name('clients.stor
 Route::get('/clientes/{id}', [ClientController::class, 'detailsClients'])->name('clients-details')->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
-    // Cobranças
     Route::get('/cobrancas', [ChargeController::class, 'index'])->name('charges');
     Route::get('/cobrancas/pagas', [ChargeController::class, 'pagas'])->name('charges.pagas');
-    
-    // Criar cobrança
     Route::get('/cobrancas/create', [ChargeController::class, 'create'])->name('charges.create');
-      Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
-    
-    // Atualizar cobrança
-  // Atualizar cobrança
-Route::put('/clientes/{id}', [ChargeController::class, 'updateCharges'])->name('updateCharges');
+    Route::post('/charges', [ChargeController::class, 'store'])->name('charges.store');
+    Route::put('/clientes/{id}', [ChargeController::class, 'updateCharges'])->name('updateCharges');
 
 // Deletar cobrança
     Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
-
     Route::get('/charges/{id}', [ChargeController::class, 'show'])->name('charges.show');
-
-    // Deletar cobrança
-    Route::delete('/charges/{id}', [ChargeController::class, 'destroy'])->name('charges.delete');
 });
 
 Route::post('/logout', function () {
