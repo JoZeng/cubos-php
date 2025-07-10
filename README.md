@@ -76,7 +76,7 @@ DB_DATABASE=cubos
 DB_USERNAME=root
 DB_PASSWORD=
 
-5. **Execute as migrações do banco de dados:**  
+4. **Execute as migrações do banco de dados:**  
    php artisan migrate
 
 Se você tiver seeders para dados de teste: php artisan db:seed
@@ -86,7 +86,7 @@ Instale as dependências do Node.js e compile os assets (se aplicável):
 npm install
 npm run dev # ou npm run build para produção
 
-7. **Inicie o servidor de desenvolvimento do Laravel:**  
+5. **Inicie o servidor de desenvolvimento do Laravel:**  
    php artisan serve
 
 O projeto estará acessível em http://127.0.0.1:8000 (ou a porta indicada).
