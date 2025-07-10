@@ -6,7 +6,8 @@
 <img src="public/images/cubos6.png" alt="Imagem Cubo 6" style="margin: 5px;">
 </p>
 
-Meu Projeto Pessoal: Cubos - PHP
+**Meu Projeto Pessoal: Cubos - PHP**
+
 Este repositório contém um projeto pessoal desenvolvido com Laravel (PHP) no back-end e JavaScript no front-end. O objetivo deste projeto foi criar um sistema de CRM (Customer Relationship Management) para treinar operações CRUD (Create, Read, Update, Delete) em entidades como Clientes, Cobranças e Usuários.
 
 Tecnologias Utilizadas:
