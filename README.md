@@ -59,6 +59,7 @@ Como Rodar o Projeto Localmente:
 Clone o repositório:
 
 git clone git@github.com:JoZeng/cubos-php.git
+
 cd cubos-php
 
 Instale as dependências do Composer:
