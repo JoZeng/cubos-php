@@ -12,6 +12,7 @@
 
 **Meu Projeto Pessoal: Cubos - PHP**
 
+
 Este repositório contém um projeto pessoal desenvolvido com Laravel (PHP) no back-end e JavaScript no front-end. O objetivo deste projeto foi criar um sistema de CRM (Customer Relationship Management) para treinar operações CRUD (Create, Read, Update, Delete) em entidades como Clientes, Cobranças e Usuários.
 
 Tecnologias Utilizadas:
@@ -54,6 +55,7 @@ Filtragem e busca de dados.
 
 Interface responsiva para diferentes dispositivos.
 
+
 Como Rodar o Projeto Localmente:
 
 Clone o repositório:
@@ -62,14 +64,20 @@ git clone git@github.com:JoZeng/cubos-php.git
 
 cd cubos-php
 
+
+
 Instale as dependências do Composer:
 
 composer install
+
+
 
 Copie o arquivo de ambiente e gere a chave da aplicação:
 
 cp .env.example .env
 php artisan key:generate
+
+
 
 Configure o banco de dados no arquivo .env:
 
@@ -84,19 +92,27 @@ DB_DATABASE=cubos
 DB_USERNAME=root
 DB_PASSWORD=
 
+
+
 Execute as migrações do banco de dados:
 
 php artisan migrate
 
 Se você tiver seeders para dados de teste: php artisan db:seed
 
+
+
 Instale as dependências do Node.js e compile os assets (se aplicável):
 
 npm install
 npm run dev # ou npm run build para produção
+
+
 
 Inicie o servidor de desenvolvimento do Laravel:
 
 php artisan serve
 
 O projeto estará acessível em http://127.0.0.1:8000 (ou a porta indicada).
+
+
