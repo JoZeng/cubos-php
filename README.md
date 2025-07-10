@@ -1,13 +1,13 @@
 <p align="center">
-<img src="public/cubos1.png" alt="Imagem Cubo 1" style="margin: 5px;">
-<img src="public/cubos2.png" alt="Imagem Cubo 2" style="margin: 5px;">
-<img src="public/cubos3.png" alt="Imagem Cubo 3" style="margin: 5px;">
+<img src="public/images/cubos1.png" alt="Imagem Cubo 1" style="margin: 5px;">
+<img src="public/images/cubos2.png" alt="Imagem Cubo 2" style="margin: 5px;">
+<img src="public/images/cubos3.png" alt="Imagem Cubo 3" style="margin: 5px;">
 </p>
 
 <p align="center">
-<img src="public/cubos4.png" alt="Imagem Cubo 4" style="margin: 5px;">
-<img src="public/cubos5.png" alt="Imagem Cubo 5" style="margin: 5px;">
-<img src="public/cubos6.png" alt="Imagem Cubo 6" style="margin: 5px;">
+<img src="public/images/cubos4.png" alt="Imagem Cubo 4" style="margin: 5px;">
+<img src="public/images/cubos5.png" alt="Imagem Cubo 5" style="margin: 5px;">
+<img src="public/images/cubos6.png" alt="Imagem Cubo 6" style="margin: 5px;">
 </p>
 
 Meu Projeto Pessoal: Cubos - PHP
